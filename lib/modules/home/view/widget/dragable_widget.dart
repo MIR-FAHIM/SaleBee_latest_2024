@@ -64,7 +64,7 @@ class DraggableCircularButtonState extends State<DraggableCircularButton> {
           );
         },
         onWillAccept: (data) {
-          // Returning true means this Draggable can be accepted by this DragTarget
+
           return true;
         },
         onAccept: (data) {
