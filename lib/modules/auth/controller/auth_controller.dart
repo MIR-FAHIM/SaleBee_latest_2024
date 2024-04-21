@@ -35,6 +35,8 @@ class AuthController extends GetxController {
   }
 
   checkSubDomainController() {
+    print("is key avaialble ${SharedPreff.to.prefss.containsKey("domain")}");
+    ;
     Map<String, dynamic> body = {
       "hostname": textSubDomainController.value.text,
     };
@@ -43,9 +45,9 @@ class AuthController extends GetxController {
         .then((resp) {
       print("res is $resp");
 
-      if (resp['Result']['data'] == "OK") {
-        SharedPreff.to.prefss
-            .setString("domain", textSubDomainController.value.text);
+      if (resp['IsSuccess'] == true) {
+        Get.find<AuthService>().setDomain(textSubDomainController.value.text);
+        Get.find<AuthService>().getDomain();
         Get.toNamed(Routes.LOGIN);
       } else {
         Get.showSnackbar(Ui.errorSnackBar(
@@ -61,6 +63,8 @@ class AuthController extends GetxController {
   }
 
   loginController() {
+    SharedPreff.to.prefss.getString("domain");
+    print("my sub domain is ${SharedPreff.to.prefss.getString("domain")}");
     Map<String, dynamic> bodyString = {
       "Email": "string",
       "UserName": textUserController.value.text,

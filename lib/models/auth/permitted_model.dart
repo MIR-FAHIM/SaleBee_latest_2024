@@ -54,7 +54,7 @@ class Result {
     label: json["Label"],
     parentId: json["ParentId"],
     className: json["ClassName"],
-    displayOrder: json["DisplayOrder"],
+    displayOrder: json["DisplayOrder"] ?? 0,
     menuVisibility: json["MenuVisibility"],
   );
 

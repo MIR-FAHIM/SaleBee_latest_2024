@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:salebee_latest/modules/task/controller/task_controller.dart';
+import 'package:salebee_latest/modules/task/view/all_task.dart';
 import 'package:salebee_latest/modules/task/view/my_task.dart';
 import 'package:salebee_latest/services/auth_services.dart';
 import 'package:salebee_latest/utils/AppColors/app_colors.dart';
@@ -15,7 +16,7 @@ class TaskView extends GetView<TaskController> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Obx(() {
+
       return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -141,6 +142,17 @@ class TaskView extends GetView<TaskController> {
                         children: [
                           Expanded(
                             child: TabBar(
+                              onTap: (i){
+                                if(i == 0){
+                                  controller.getAllTaskController(operation: "MyTask");
+                                }if(i == 1){
+                                  controller.getAllTaskController(operation: "AssignedToMe");
+                                }if(i == 2){
+                                  controller.getAllTaskController(operation: "AssignedByMe");
+                                }if(i == 3){
+                                  controller.getAllTaskController();
+                                }
+                              },
                               indicatorColor: AppColors.colorBlue,
                               labelColor: AppColors.colorBlue,
                               unselectedLabelColor: Colors.grey,
@@ -152,19 +164,19 @@ class TaskView extends GetView<TaskController> {
                               tabs: [
                                 Tab(
                                   text:
-                                      'My Task(${controller.myTaskList.length.toString()})',
+                                      'My Task',
                                 ),
                                 Tab(
                                   text:
-                                      'Assigned to me(${controller.assigedToMeTaskList.length.toString()})',
+                                      'Assigned to me',
                                 ),
                                 Tab(
                                   text:
-                                      'Assigned by me(${controller.assignedByMeTaskList.length.toString()})',
+                                      'Assigned by me',
                                 ),
                                 Tab(
                                   text:
-                                      'All(${controller.allTaskList.length.toString()})',
+                                      'All',
                                 ),
                               ],
                             ),
@@ -177,19 +189,19 @@ class TaskView extends GetView<TaskController> {
                       child: TabBarView(children: [
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: MyTaskView(),
+                          child: AllTaskView(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: MyTaskView(),
+                          child: AllTaskView(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: MyTaskView(),
+                          child: AllTaskView(),
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.0),
-                          child: MyTaskView(),
+                          child: AllTaskView(),
                         )
                       ]),
                     ),
@@ -198,7 +210,7 @@ class TaskView extends GetView<TaskController> {
               ),
             )),
       );
-    });
+
   }
 }
 //

@@ -86,6 +86,17 @@ class AllRepository {
     return response;
   }
 
+  Future addTask(Map body) async {
+    APIManager _manager = APIManager();
+    var response =
+        await _manager.postAPICallWithEncodedBody(ApiUrl.addTask, body, header: {
+      'Content-Type': 'application/json',
+    });
+
+    print('get my task resp: $response');
+    return response;
+  }
+
   Future addExpense(Map body) async {
     APIManager _manager = APIManager();
     var response = await _manager
@@ -121,7 +132,7 @@ class AllRepository {
   Future getAllTask(Map body) async {
     APIManager _manager = APIManager();
     var response = await _manager
-        .postAPICallWithEncodedBody(ApiUrl.allTask, body, header: {
+        .postAPICallWithEncodedBody(ApiUrl.allTaskNew, body, header: {
       'Content-Type': 'application/json',
     });
 
@@ -193,6 +204,34 @@ class AllRepository {
     });
 
     print('get emp id visit resp: $response');
+    return response;
+  }
+
+  Future getTaskStatus() async {
+    String encodedToken = Uri.encodeComponent(Get.find<AuthService>().currentUser.value.result!.userToken!);
+    APIManager _manager = APIManager();
+    var response = await _manager
+        .get("${ApiUrl.getTaskStatus}?Token=$encodedToken",);
+
+    print('get task status resp: $response');
+    return response;
+  }
+  Future updateTaskStatus(taskId, statusId) async {
+    String encodedToken = Uri.encodeComponent(Get.find<AuthService>().currentUser.value.result!.userToken!);
+    APIManager _manager = APIManager();
+    var response = await _manager
+        .get("${ApiUrl.updateTaskStatus}?Token=$encodedToken&TaskID=$taskId&StatusID=$statusId",);
+
+    print('update task status resp: $response');
+    return response;
+  }
+  Future getTaskType() async {
+    String encodedToken = Uri.encodeComponent(Get.find<AuthService>().currentUser.value.result!.userToken!);
+    APIManager _manager = APIManager();
+    var response = await _manager
+        .get("${ApiUrl.getTaskType}?Token=$encodedToken",);
+
+    print('get task type resp: $response');
     return response;
   }
 
@@ -281,6 +320,15 @@ class AllRepository {
     print('get prospect status: $response');
     return response;
   }
+  Future updateProspectStatus(token,String prosId, String  stage) async {
+    print("status token is $token");
+    APIManager _manager = APIManager();
+    var response = await _manager
+        .get("${ApiUrl.updateProspect}?Token=$token&ProspectID=$prosId&ProspectStage=$stage",);
+
+    print('update prospect status: $response');
+    return response;
+  }
 
   Future getLeadStatus(token) async {
     print("status token is $token");
@@ -299,11 +347,11 @@ class AllRepository {
     //   https://nexzen.salebee.net/api/Salebee/GetAllProspectStage?Token=EZ8UOQ9vIhuX4iPc43nR2ApdsEM7Ad80i4si3vGJ7J3Snz%2BZPVeQIzWB7P3EZERUCl2wQzsB3zSLiyLe8YnsnYPhwd5UA4UPFpeH3D9FIaM%3D
     APIManager _manager = APIManager();
     var response = await _manager
-        .postAPICallWithEncodedBody(ApiUrl.prospectFollowUpbyId, body, header: {
+        .postAPICallWithEncodedBody(ApiUrl.getAllFollowUpByFilter, body, header: {
       'Content-Type': 'application/json',
     });
 
-    print('get prospect followup by id resp: $response');
+    print('get  followup  resp: $response');
     return response;
   }
 
@@ -345,10 +393,10 @@ class AllRepository {
     return response;
   }
 
-  Future getMyReportByMonth(Map body, String empId) async {
+  Future getMyReportByMonth(Map body, String empId, String month) async {
     APIManager _manager = APIManager();
     var response = await _manager.postAPICallWithEncodedBody(
-        "${ApiUrl.getEmployeeAttendanceByMonth}?EmployeeId=$empId&MonthId=3",
+        "${ApiUrl.getEmployeeAttendanceByMonth}?EmployeeId=$empId&MonthId=$month",
         body,
         header: {
           'Content-Type': 'application/json',

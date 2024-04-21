@@ -25,6 +25,7 @@ class VisitController extends GetxController {
   final scaffoldkey = GlobalKey().obs;
   final fcmtoken = "".obs;
   final searchType = "".obs;
+  final location = "".obs;
   final searchString = "".obs;
   final dropdownValue = DateTime.now().year.toString().obs;
   final monthSelection =
@@ -193,7 +194,7 @@ class VisitController extends GetxController {
       "Note": "string",
       "ProspectId": prospectId,
       "LeadId": 0,
-      "LocationDescription": "string",
+      "LocationDescription": Uri.encodeComponent(Get.find<LocationService>().locationAddress.value),
       "LeadName": "No Data",
       "ProspectName": prospectName,
       "ProspectAddress": "string",

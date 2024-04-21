@@ -27,6 +27,7 @@ import 'package:salebee_latest/modules/prospect/view/prospect_view.dart';
 import 'package:salebee_latest/modules/splash_screen/binding/splash_binding.dart';
 import 'package:salebee_latest/modules/splash_screen/view/splash_screeen_view.dart';
 import 'package:salebee_latest/modules/task/binding/task_biding.dart';
+import 'package:salebee_latest/modules/task/view/add_task_view.dart';
 import 'package:salebee_latest/modules/task/view/task_view.dart';
 import 'package:salebee_latest/modules/visit/binding/visit_biding.dart';
 import 'package:salebee_latest/modules/visit/view/visit_list_by_prospect.dart';
@@ -76,6 +77,12 @@ class AppPages {
     GetPage(
       name: _Paths.TASKVIEW,
       page: () =>  TaskView(),
+      binding: TaskBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.ADDTASK,
+      page: () =>  AddTaskView(),
       binding: TaskBinding(),
     ),
     GetPage(

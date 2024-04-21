@@ -55,6 +55,7 @@ class Result {
 class ProspectList {
   int id;
   String name;
+
   String? code;
   String? smsType;
   String? contactNumber;
@@ -163,6 +164,7 @@ class ProspectList {
     required this.canEdit,
     required this.canDelete,
     required this.canView,
+
   });
 
   factory ProspectList.fromJson(Map<String, dynamic> json) => ProspectList(
@@ -214,6 +216,7 @@ class ProspectList {
     prospectStageDate: json["ProspectStageDate"] == null ? null : DateTime.parse(json["ProspectStageDate"]),
     changeDate: DateTime.parse(json["ChangeDate"]),
     note: json["Note"],
+
     prospectIds: json["ProspectIds"],
     totalCount: json["TotalCount"],
     projectId: json["ProjectId"],
@@ -280,48 +283,7 @@ class ProspectList {
   };
 }
 
-enum LastFlwBy {
-  AFIA_FARZANA_SHARMEE,
-  AL_NAHIAN,
-  EVA_SHARMIN_JEBA,
-  IFTTI_SHARIAR_FAHIM,
-  IRTISHAM_RAHMAN_OISHY,
-  KAZI_ESTIAKE_AHMED,
-  KAZI_MD_RAISE_UDDIN,
-  KEYA_YEASAMIN,
-  KH_AHMED_IMTIAZ_MAHMOOD,
-  MD_ANWAR_HUSAIN,
-  MD_ASADULLAH,
-  MD_FAZLE_RABBI,
-  MD_HABIBUR_RAHMAN,
-  MD_MAZHARUL_ALAM_BHUYAIN,
-  MD_MUHIBUL_HASAN,
-  MD_RAFIQUL_ISLAM,
-  MD_RAYHAN_UDDEN,
-  MD_SHAHNEAWS_KHAN_RAHI,
-  MD_ZIAUL_OSMAN,
-  MIR_FAHIM_RAHMAN,
-  MOHAMMAD_KAMAL_HOSSAIN,
-  MOHAMMAD_MYDUL_ISLAM,
-  MOHAMMAD_SHIBLI_SHADIK,
-  MUHAMMAD_HASIBUR_RAHMAN,
-  MUHAMMED_MAHFUZUR_RAHMAN,
-  MUQTADER_AHMED,
-  NAZRIN_ISLAM,
-  NO_FOLLOWUP,
-  NYMUR_RAHMAN,
-  OLIULLAH_ASHRAFI,
-  ROJINA_KHATUN,
-  SAAD_MOHAMMAD,
-  SANJIDA_AFRIN,
-  SHANJIDA,
-  SORKER_SONET,
-  SUPER_ADMIN,
-  SUVONKOR_MALAKAR,
-  TANAY_CHANDRA_DAS,
-  TASNIM_FERDOUSI,
-  ZAHIDUL_ISLAM_EMON
-}
+
 
 
 
@@ -360,24 +322,7 @@ class ConcernPerson {
 
 
 
-enum Stage {
-  ALREADY_CLIENT,
-  ALREADY_HAVE_CRM,
-  COULDN_T_REACH,
-  DEMO_ACCOUNT,
-  DEMO_DONE,
-  ERP_ACP,
-  FUTURE_PROSPECT,
-  HOT_LEADS,
-  INITIAL_CONTACT,
-  INVALID_NUMBER,
-  LEAD_CREATED,
-  NEW_PROSPECT,
-  NO_NEED_SOFTWARE,
-  ON_FOLLOWUP,
-  RECYCLE_BIN,
-  VISITED
-}
+
 
 
 

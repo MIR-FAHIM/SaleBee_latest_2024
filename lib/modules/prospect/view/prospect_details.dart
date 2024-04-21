@@ -429,7 +429,7 @@ class ProspectDetailsView extends GetView<ProspectController> {
                       GestureDetector(
                         onTap: (){
                          Get.put(FollowUpController());
-                         Get.find<FollowUpController>().getFollowUpByProsIdController(data.id!.toString());
+                         Get.find<FollowUpController>().getFollowUpByProsIdController(data.id!.toString(), "1");
                         },
                         child: Container(
                           height: 30,

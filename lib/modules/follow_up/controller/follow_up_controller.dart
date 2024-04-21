@@ -27,12 +27,9 @@ class FollowUpController extends GetxController {
   final fcmtoken = "".obs;
   final searchType = "".obs;
   final searchString = "".obs;
-  final  callList =<Call>[].obs;
-  final  smsList =<Sm>[].obs;
+
   final getAllVisit = <Resultvisit>[].obs;
-  final  meetingList =<Call>[].obs;
-  final  othersList =<Call>[].obs;
-  final  emailList =<Call>[].obs;
+
   final dropdownValue = DateTime.now().year.toString().obs;
   final monthSelection =
       int.parse(DateTime.now().toString().substring(5, 7)).obs;
@@ -114,7 +111,7 @@ class FollowUpController extends GetxController {
   ].obs;
   final focusedIndex = 0.obs;
   final myTaskList = <MyTaskResult>[].obs;
-  final getFollowUpListByPros = ResultFollowUpByPros().obs;
+  final getFollowUpList = <FollowUpData>[].obs;
   @override
   Future<void> onInit() async {
 getVisitController();
@@ -190,40 +187,32 @@ getVisitController();
 
     });
   }
-  getFollowUpByProsIdController(String? prosId) {
+  getFollowUpByProsIdController(String? prosId, String type) {
     Map body = {
-      "Token": Get.find<AuthService>().currentUser.value.result!.userToken!,
-      "ProspectID": prosId,
+
+
+        "Token": Get.find<AuthService>().currentUser.value.result!.userToken!,
+        "Data": {
+          "DateRange": "2023-03-04T04:25:58.770Z to ${DateTime.now().toString()}",
+          "AssignToEmployeeId": 0,
+          "FollowupByEmployeeId": 0,
+          "FollowupActivityTypeId": type,
+          "ProspectId": prosId,
+          "LeadId": 0
+        }
+
     };
     AllRepository().getFollowUpById(body).then((value) {
       print("my followup list of $prosId ---- $value");
 
-      final model = FollowUpByProsIdModel.fromJson(value);
+      final model = FollowUpModel.fromJson(value);
 
-      getFollowUpListByPros.value = model.result!;
-      callList.value = model.result!.call!;
-      smsList.value = model.result!.sms!;
-      emailList.value = model.result!.email!;
-      othersList.value = model.result!.others!;
+      getFollowUpList.value = model.result!.data;
+      print("my all follow up by prospect id is ${getFollowUpList.value.length}");
+
+      Get.toNamed(Routes.FOLLOWUPVIEW,);
 
 
-      print("my follow up model are ${getFollowUpListByPros.value.call}");
-      print("my calll model are ${callList.value.length}");
-      print("my calll model are ${callList.value[0].description!}");
-      if(callList.value.isEmpty){
-        Get.showSnackbar(Ui.errorSnackBar(
-            message: 'No Data', title: 'error'.tr));
-      }else{
-        Get.offNamed(Routes.FOLLOWUPVIEW, arguments: [
-          {
-         "call":   callList.value,
-         "email":   emailList.value,
-         "other":   othersList.value,
-         "sms":   smsList.value,
-            "visit": getAllVisit.value.where((element) => element.prospectId == int.parse(prosId!) ),
-          }
-        ]);
-      }
 
 
 

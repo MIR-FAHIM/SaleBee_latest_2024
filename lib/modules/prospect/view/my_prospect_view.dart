@@ -9,9 +9,9 @@ import 'package:salebee_latest/modules/prospect/controller/prospect_controller.d
 
 import 'package:salebee_latest/routes/app_pages.dart';
 import 'package:salebee_latest/services/auth_services.dart';
+import 'package:salebee_latest/services/location_service.dart';
 
 import 'package:salebee_latest/utils/AppColors/app_colors.dart';
-
 
 class MyProspectView extends GetView<ProspectController> {
   @override
@@ -20,286 +20,248 @@ class MyProspectView extends GetView<ProspectController> {
 
     return Obx(() {
       return Scaffold(
-
           body: SingleChildScrollView(
-            child: Column(
-              children: [
-
-                SizedBox(
-                  height: 10,
-                ),
-
-
-                Container(
-                  height: Get.height *.1,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: controller.getStatus.length,
-                      itemBuilder: (context, i){
-                        var status = controller.getStatus[i];
-                        return GestureDetector(
-                          onTap: () {
-
-
-                            controller.setSearchText(status.status, "status");
-                          },
-                          child: Card(
-                            child: Container(
-                                height: Get.height * .08,
-                                decoration: BoxDecoration(
-                                    color: HexColor(status.funnelColor),
-                                    borderRadius: BorderRadius.circular(6)),
-                                width: Get.width * .16,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 4.0),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        status.status!,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 10, fontWeight: FontWeight.bold),
-                                      ),
-                                      Card(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              Get.find<AuthService>().getNewProspectLocal.value
-                                                  .where((v) => v.stage == status.status)
-                                                  .length
-                                                  .toString(),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ),
-                        );
-                      }),
-                ),
-
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 50,
-                    child: TextField(
-                      onChanged: (e) {
-                        controller.setSearchText(e, "search");
-                        // controller.contactsResult.value =
-                        //     _search(controller.contacts.value);
+        child: Column(
+          children: [
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: Get.height * .1,
+              child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: controller.getStatus.length,
+                  itemBuilder: (context, i) {
+                    var status = controller.getStatus[i];
+                    return GestureDetector(
+                      onTap: () {
+                        controller.setSearchText(status.status, "status");
                       },
-                      decoration: InputDecoration(
-                          labelText: "Search",
-                          hintText: "Search",
-                          prefixIcon: Icon(Icons.search),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                  Radius.circular(25.0)))),
-                    ),
-                  ),
+                      child: Card(
+                        child: Container(
+                            height: Get.height * .08,
+                            decoration: BoxDecoration(
+                                color: HexColor(status.funnelColor),
+                                borderRadius: BorderRadius.circular(6)),
+                            width: Get.width * .16,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 4.0),
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    status.status!,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  Card(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          Get.find<AuthService>()
+                                              .getNewProspectLocal
+                                              .value
+                                              .where((v) =>
+                                                  v.stage == status.status)
+                                              .length
+                                              .toString(),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )),
+                      ),
+                    );
+                  }),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                height: 50,
+                child: TextField(
+                  onChanged: (e) {
+                    controller.setSearchText(e, "search");
+                    // controller.contactsResult.value =
+                    //     _search(controller.contacts.value);
+                  },
+                  decoration: InputDecoration(
+                      labelText: "Search",
+                      hintText: "Search",
+                      prefixIcon: Icon(Icons.search),
+                      border: OutlineInputBorder(
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(25.0)))),
                 ),
-
-
-                SizedBox(
-                  height: 10,
-                ),
-                Container(
-                  height: Get.height * .6,
-                  child: controller.filteredProspectList.isEmpty
-                      ? Text("You do not have any prospects....")
-                      : ListView.builder(
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Container(
+              height: Get.height * .6,
+              child: controller.filteredProspectList.isEmpty
+                  ? Text("Loading....")
+                  : ListView.builder(
                       itemCount: controller.filteredProspectList.length,
                       itemBuilder: (context, index) {
                         var data = controller.filteredProspectList[index];
-                        return  Card(
+                        return Card(
                           child: ExpandableNotifier(
                             child: InkWell(
                               onTap: () {
-                                Get.toNamed(Routes.PROSPECTVIEWDETAIL, arguments: [data]);
+                                controller.prosId.value = data.id.toString();
+                                Get.toNamed(Routes.PROSPECTVIEWDETAIL,
+                                    arguments: [data]);
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    borderRadius:
-                                    BorderRadius.circular(6),
+                                    borderRadius: BorderRadius.circular(6),
                                     color: const Color(0xFFFFFFFF)),
                                 child: Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: Column(
                                     mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            'Pro -${data.id}',
+                                            "Created on: ${DateFormat.yMd().format(data.createdOn!)}",
                                             style: TextStyle(
-                                                fontWeight:
-                                                FontWeight.w700,
-                                                fontSize: 12,
-                                                color: Colors.grey),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Text(
-                                              "${DateFormat.yMMM().format(data.createdOn!)}",
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  fontSize: 12,
-                                                  fontWeight:
-                                                  FontWeight.w400)),
+                                                color: Colors.grey,
+                                                fontSize: 10),
+                                          )
                                         ],
                                       ),
                                       ListTile(
                                           trailing: Container(
+                                            width: Get.width * .4,
                                             height: 40,
-                                            width: 100,
                                             decoration: BoxDecoration(
-                                                border: Border.all(
-                                                    color: AppColors.greenButton,
-                                                    width: 1),
                                                 borderRadius:
-                                                const BorderRadius
-                                                    .all(
-                                                    Radius.circular(
-                                                        10.0))),
-                                            child: Center(
-                                              child: Column(
-                                                children: [
-                                                  Text("Stage:",
-                                                    // getStage(data.stage!),
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontSize: 12,
-                                                        color:
-                                                        Colors.blue),
-                                                  ),
-                                                  Text(data.stage!,
-                                                    // getStage(data.stage!),
-                                                    style: TextStyle(
-                                                        fontWeight:
-                                                        FontWeight.normal,
-                                                        fontSize: 12,
-                                                        color:
-                                                        Colors.black54),
-                                                  ),
-                                                ],
-                                              ),
+                                                    BorderRadius.circular(6),
+                                                border: Border.all(
+                                                    color: Colors.grey)),
+                                            child: DropdownButton<int>(
+                                              value: data.prospectStage,
+                                              items: controller.getStatus
+                                                  .map((status) {
+                                                return DropdownMenuItem<int>(
+                                                  value: status.id,
+                                                  child: Text(status.status),
+                                                );
+                                              }).toList(),
+                                              onChanged: (statusId) {
+                                                controller.stausID.value =
+                                                    statusId!;
+                                                data.prospectStage = statusId;
+
+                                                controller.updateProspectStatus(
+                                                    data.id.toString(),
+                                                    statusId.toString());
+                                              },
                                             ),
                                           ),
                                           title: Text(
                                             data.name!,
                                             style: TextStyle(
-                                                fontWeight:
-                                                FontWeight.w700,
+                                                fontWeight: FontWeight.w700,
                                                 fontSize: 12,
                                                 color: Colors.black),
                                           ),
                                           subtitle: Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(data.zoneName!),
                                               InkWell(
-                                                onTap: (){
-                                                  controller.launchURL(data.websiteProspect!);
-                                                },
-                                                  child: Text(data.websiteProspect!, style: TextStyle(color: Colors.blue),)),
+                                                  onTap: () {
+                                                    controller.launchURL(
+                                                        data.websiteProspect!);
+                                                  },
+                                                  child: Text(
+                                                    data.websiteProspect!,
+                                                    style: TextStyle(
+                                                        color: Colors.blue),
+                                                  )),
                                               data.concernPersons!.isEmpty
                                                   ? Text(
-                                                "No data",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w700,
-                                                    fontSize: 12,
-                                                    color: Colors
-                                                        .grey),
-                                              )
+                                                      "No data",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 12,
+                                                          color: Colors.grey),
+                                                    )
                                                   : Text(
-                                                data
-                                                    .concernPersons![
-                                                0]
-                                                    .contactpersonName
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .bold,
-                                                    fontSize: 14,
-                                                    color: Colors
-                                                        .grey),
-                                              ),
+                                                      data.concernPersons![0]
+                                                          .contactpersonName
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 14,
+                                                          color: Colors.grey),
+                                                    ),
                                               data.concernPersons!.isEmpty
                                                   ? Text(
-                                                "No data",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w700,
-                                                    fontSize: 12,
-                                                    color: Colors
-                                                        .grey),
-                                              )
+                                                      "No data",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 12,
+                                                          color: Colors.grey),
+                                                    )
                                                   : Text(
-                                                data
-                                                    .concernPersons![
-                                                0]
-                                                    .contactpersonDesignation
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .bold,
-                                                    fontSize: 12,
-                                                    color: Colors
-                                                        .grey),
-                                              ),
+                                                      data.concernPersons![0]
+                                                          .contactpersonDesignation
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 12,
+                                                          color: Colors.grey),
+                                                    ),
                                               data.concernPersons!.isEmpty
                                                   ? Text(
-                                                "No data",
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w700,
-                                                    fontSize: 12,
-                                                    color: Colors
-                                                        .grey),
-                                              )
+                                                      "No data",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                          fontSize: 12,
+                                                          color: Colors.grey),
+                                                    )
                                                   : Text(
-                                                data
-                                                    .concernPersons![
-                                                0]
-                                                    .contactpersonMobile
-                                                    .toString(),
-                                                style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .bold,
-                                                    fontSize: 12,
-                                                    color: Colors
-                                                        .grey),
-                                              ),
+                                                      data.concernPersons![0]
+                                                          .contactpersonMobile
+                                                          .toString(),
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 12,
+                                                          color: Colors.grey),
+                                                    ),
                                             ],
                                           )),
                                       ScrollOnExpand(
                                         scrollOnExpand: true,
                                         scrollOnCollapse: false,
                                         child: ExpandablePanel(
-                                          theme:
-                                          const ExpandableThemeData(
+                                          theme: const ExpandableThemeData(
                                             headerAlignment:
-                                            ExpandablePanelHeaderAlignment
-                                                .center,
+                                                ExpandablePanelHeaderAlignment
+                                                    .center,
                                             tapBodyToCollapse: true,
                                           ),
                                           header: Row(
@@ -310,7 +272,7 @@ class MyProspectView extends GetView<ProspectController> {
                                                     color: Colors.black,
                                                     fontSize: 14,
                                                     fontWeight:
-                                                    FontWeight.w600),
+                                                        FontWeight.w600),
                                               ),
                                               SizedBox(
                                                 width: 10,
@@ -318,27 +280,27 @@ class MyProspectView extends GetView<ProspectController> {
                                               InkWell(
                                                 splashColor: Colors.blue,
                                                 onTap: () {
-                                                  controller.textMe(data.concernPersons![0].contactpersonMobile!.toString());
+                                                  controller.textMe(data
+                                                      .concernPersons![0]
+                                                      .contactpersonMobile!
+                                                      .toString());
                                                 },
                                                 child: Card(
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          100)),
+                                                          BorderRadius.circular(
+                                                              100)),
                                                   child: Container(
-                                                    decoration:
-                                                    BoxDecoration(
-                                                        shape: BoxShape
-                                                            .circle),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle),
                                                     child: Padding(
                                                       padding:
-                                                      const EdgeInsets
-                                                          .all(8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Icon(
                                                         Icons.chat,
-                                                        color:
-                                                        AppColors.textColorGreen,
+                                                        color: AppColors
+                                                            .textColorGreen,
                                                       ),
                                                     ),
                                                   ),
@@ -351,27 +313,26 @@ class MyProspectView extends GetView<ProspectController> {
                                                 splashColor: Colors.blue,
                                                 onTap: () {
                                                   controller.launchPhoneDialer(
-                                                      data.concernPersons![0].contactpersonMobile!.toString());
+                                                      data.concernPersons![0]
+                                                          .contactpersonMobile!
+                                                          .toString());
                                                 },
                                                 child: Card(
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          100)),
+                                                          BorderRadius.circular(
+                                                              100)),
                                                   child: Container(
-                                                    decoration:
-                                                    BoxDecoration(
-                                                        shape: BoxShape
-                                                            .circle),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle),
                                                     child: Padding(
                                                       padding:
-                                                      const EdgeInsets
-                                                          .all(8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Icon(
                                                         Icons.call,
-                                                        color:
-                                                        AppColors.greenButton,
+                                                        color: AppColors
+                                                            .greenButton,
                                                       ),
                                                     ),
                                                   ),
@@ -383,27 +344,28 @@ class MyProspectView extends GetView<ProspectController> {
                                               InkWell(
                                                 splashColor: Colors.blue,
                                                 onTap: () {
-                                                  controller.launchWhatsapp(data.concernPersons![0].contactpersonMobile!.toString());
+                                                  controller.launchWhatsapp(data
+                                                      .concernPersons![0]
+                                                      .contactpersonMobile!
+                                                      .toString());
                                                 },
                                                 child: Card(
                                                   shape: RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius
-                                                          .circular(
-                                                          100)),
+                                                          BorderRadius.circular(
+                                                              100)),
                                                   child: Container(
-                                                    decoration:
-                                                    BoxDecoration(
-                                                        shape: BoxShape
-                                                            .circle),
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle),
                                                     child: Padding(
                                                       padding:
-                                                      const EdgeInsets
-                                                          .all(8.0),
+                                                          const EdgeInsets.all(
+                                                              8.0),
                                                       child: Image(
                                                         height: 25,
                                                         width: 25,
-                                                        image: AssetImage("images/Icons/whatsapp.png"),
+                                                        image: AssetImage(
+                                                            "images/Icons/whatsapp.png"),
                                                       ),
                                                     ),
                                                   ),
@@ -413,24 +375,21 @@ class MyProspectView extends GetView<ProspectController> {
                                                 width: 5,
                                               ),
                                               Card(
-                                                shape:
-                                                RoundedRectangleBorder(
+                                                shape: RoundedRectangleBorder(
                                                     borderRadius:
-                                                    BorderRadius
-                                                        .circular(
-                                                        100)),
+                                                        BorderRadius.circular(
+                                                            100)),
                                                 child: Container(
-                                                  decoration:
-                                                  BoxDecoration(
-                                                      shape: BoxShape
-                                                          .circle),
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle),
                                                   child: Padding(
                                                     padding:
-                                                    const EdgeInsets
-                                                        .all(8.0),
+                                                        const EdgeInsets.all(
+                                                            8.0),
                                                     child: Icon(
                                                       Icons.more_horiz,
-                                                      color: AppColors.greenButton,
+                                                      color:
+                                                          AppColors.greenButton,
                                                     ),
                                                   ),
                                                 ),
@@ -452,20 +411,20 @@ class MyProspectView extends GetView<ProspectController> {
                                                 children: [
                                                   SizedBox(
                                                       width: Get.width * .2,
-                                                      child: Text("Created by:")),
+                                                      child:
+                                                          Text("Created by:")),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
                                                   Container(
                                                     decoration:
-                                                    const BoxDecoration(
-                                                        shape: BoxShape
-                                                            .circle),
-                                                    child:
-                                                    const CircleAvatar(
+                                                        const BoxDecoration(
+                                                            shape: BoxShape
+                                                                .circle),
+                                                    child: const CircleAvatar(
                                                       radius: 12,
                                                       backgroundImage:
-                                                      AssetImage(
+                                                          AssetImage(
                                                         'images/suite.png',
                                                       ),
                                                     ),
@@ -473,15 +432,15 @@ class MyProspectView extends GetView<ProspectController> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Text(data.createdByName!,
+                                                  Text(
+                                                    data.createdByName!,
                                                     // getEmp(
                                                     //     data.createdBy! ??
                                                     //         1,
                                                     //     AttendanceRepository
                                                     //         .employeeList),
                                                     style: TextStyle(
-                                                        color:
-                                                        Colors.grey,
+                                                        color: Colors.grey,
                                                         fontSize: 14),
                                                   )
                                                 ],
@@ -492,21 +451,21 @@ class MyProspectView extends GetView<ProspectController> {
                                               Row(
                                                 children: [
                                                   SizedBox(
-                                                    width: Get.width * .2,
-                                                      child: Text("Assign to:")),
+                                                      width: Get.width * .2,
+                                                      child:
+                                                          Text("Assign to:")),
                                                   SizedBox(
                                                     width: 10,
                                                   ),
                                                   Container(
                                                     decoration:
-                                                    const BoxDecoration(
-                                                        shape: BoxShape
-                                                            .circle),
-                                                    child:
-                                                    const CircleAvatar(
+                                                        const BoxDecoration(
+                                                            shape: BoxShape
+                                                                .circle),
+                                                    child: const CircleAvatar(
                                                       radius: 12,
                                                       backgroundImage:
-                                                      AssetImage(
+                                                          AssetImage(
                                                         'images/suite.png',
                                                       ),
                                                     ),
@@ -514,67 +473,99 @@ class MyProspectView extends GetView<ProspectController> {
                                                   SizedBox(
                                                     width: 5,
                                                   ),
-                                                  Text(data.assignToEmployee!,
+                                                  Text(
+                                                    data.assignToEmployee!,
                                                     // getEmp(
                                                     //     data.createdBy! ??
                                                     //         1,
                                                     //     AttendanceRepository
                                                     //         .employeeList),
                                                     style: TextStyle(
-                                                        color:
-                                                        Colors.grey,
+                                                        color: Colors.grey,
                                                         fontSize: 14),
                                                   )
                                                 ],
                                               ),
                                               Row(
                                                 mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Row(
                                                     children: [
                                                       const Text(
                                                         'Action',
                                                         style: TextStyle(
-                                                            color: Colors
-                                                                .black,
+                                                            color: Colors.black,
                                                             fontSize: 14,
                                                             fontWeight:
-                                                            FontWeight
-                                                                .w600),
+                                                                FontWeight
+                                                                    .w600),
                                                       ),
                                                       SizedBox(
                                                         width: 10,
                                                       ),
                                                       GestureDetector(
                                                         onTap: () {
-                                                          controller.addVisitController(data.id!, data.name);
+                                                          if (Get.find<
+                                                                  LocationService>()
+                                                              .currentLocation
+                                                              .value
+                                                              .isEmpty) {
+                                                            Get.find<
+                                                                    LocationService>()
+                                                                .determinePosition();
+                                                            if (controller
+                                                                .locationDis
+                                                                .value
+                                                                .isEmpty) {
+                                                              controller
+                                                                  .getAddressFromLatLng(
+                                                                Get.find<LocationService>()
+                                                                        .currentLocation[
+                                                                    'lat'],
+                                                                Get.find<LocationService>()
+                                                                        .currentLocation[
+                                                                    'lng'],
+                                                              );
+                                                            } else {
+                                                              controller
+                                                                  .addVisitController(
+                                                                data.id!,
+                                                                data.name,
+                                                              );
+                                                            }
+                                                          } else {
+                                                            controller
+                                                                .addVisitController(
+                                                                    data.id!,
+                                                                    data.name);
+                                                          }
                                                         },
                                                         child: Card(
                                                           shape: RoundedRectangleBorder(
                                                               borderRadius:
-                                                              BorderRadius.circular(
-                                                                  100)),
-                                                          child:
-                                                          Container(
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          100)),
+                                                          child: Container(
                                                             decoration:
-                                                            BoxDecoration(
-                                                                shape:
-                                                                BoxShape.circle),
-                                                            child:
-                                                            Padding(
+                                                                BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle),
+                                                            child: Padding(
                                                               padding:
-                                                              const EdgeInsets.all(
-                                                                  8.0),
+                                                                  const EdgeInsets
+                                                                      .all(8.0),
                                                               child: Text(
                                                                 "Add Visit",
                                                                 style:
-                                                                TextStyle(
-                                                                  color:
-                                                                  AppColors.colorBlue,
+                                                                    TextStyle(
+                                                                  color: AppColors
+                                                                      .colorBlue,
                                                                   fontWeight:
-                                                                  FontWeight.bold,
+                                                                      FontWeight
+                                                                          .bold,
                                                                 ),
                                                               ),
                                                             ),
@@ -587,22 +578,22 @@ class MyProspectView extends GetView<ProspectController> {
                                                       Card(
                                                         shape: RoundedRectangleBorder(
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                100)),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100)),
                                                         child: Container(
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle),
                                                           child: Padding(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .all(
-                                                                8.0),
+                                                                const EdgeInsets
+                                                                    .all(8.0),
                                                             child: Icon(
                                                               Icons.edit,
-                                                              color:
-                                                              AppColors.greenButton,
+                                                              color: AppColors
+                                                                  .greenButton,
                                                             ),
                                                           ),
                                                         ),
@@ -613,23 +604,21 @@ class MyProspectView extends GetView<ProspectController> {
                                                       Card(
                                                         shape: RoundedRectangleBorder(
                                                             borderRadius:
-                                                            BorderRadius
-                                                                .circular(
-                                                                100)),
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        100)),
                                                         child: Container(
-                                                          decoration: BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle),
                                                           child: Padding(
                                                             padding:
-                                                            const EdgeInsets
-                                                                .all(
-                                                                8.0),
+                                                                const EdgeInsets
+                                                                    .all(8.0),
                                                             child: Icon(
-                                                              Icons
-                                                                  .delete,
-                                                              color: Colors
-                                                                  .red,
+                                                              Icons.delete,
+                                                              color: Colors.red,
                                                             ),
                                                           ),
                                                         ),
@@ -750,11 +739,10 @@ class MyProspectView extends GetView<ProspectController> {
                           ),
                         );
                       }),
-                )
-              ],
-            ),
-          ));
+            )
+          ],
+        ),
+      ));
     });
   }
 }
-

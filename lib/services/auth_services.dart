@@ -11,7 +11,9 @@ class AuthService extends GetxService {
   final logged = false.obs;
   final loggedKey = false.obs;
   final checkProspectBool = false.obs;
+  final checkDomainBool = false.obs;
   final deviceToken = ''.obs;
+  final domainName = ''.obs;
   final getNewProspectLocal = <ProspectList>[].obs;
   final language_key = 'en_US'.obs;
 
@@ -31,6 +33,7 @@ class AuthService extends GetxService {
   getAll() {
     getLogged();
     checkLogged();
+    checkDomain();
     checkProspect();
 
   }
@@ -73,6 +76,27 @@ class AuthService extends GetxService {
   }
   removeProspect(){
     _box.remove('prospectList');
+  }
+
+
+  setDomain(String domain) {
+    _box.write('domainName', domain);
+    //getCurrentUser();
+  }
+  getDomain() {
+    domainName.value = _box.read('domainName');
+  }
+
+  checkDomain() {
+    if (_box.hasData('domainName')) {
+      checkDomainBool.value = true;
+      getDomain() ;
+    } else {
+      checkDomainBool.value = false;
+    }
+  }
+  removeDomain(){
+    _box.remove('domainName');
   }
 
   setUser(LoginResponseModel user) async {

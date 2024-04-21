@@ -1,17 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/diagnostics.dart';
 import 'package:get/get.dart';
 import 'package:salebee_latest/models/auth/attendance/my_atten_report_by_month.dart';
 import 'package:salebee_latest/models/auth/get_all_emp_attendance_report_model.dart';
 import 'package:salebee_latest/models/auth/get_all_prospect_by_id_model.dart';
 import 'package:salebee_latest/models/auth/get_emp_attendance_model.dart';
-import 'package:salebee_latest/models/auth/get_visit_model.dart';
-import 'package:salebee_latest/models/auth/my_task_model.dart';
-import 'package:salebee_latest/models/auth/task_update_model.dart';
 import 'package:salebee_latest/modules/home/controller/home_controller.dart';
 import 'package:salebee_latest/repository/all_rep.dart';
 import 'package:salebee_latest/repository/auth_rep.dart';
@@ -19,11 +14,7 @@ import 'package:salebee_latest/routes/app_pages.dart';
 import 'package:salebee_latest/services/auth_services.dart';
 import 'package:salebee_latest/services/location_service.dart';
 import 'package:salebee_latest/utils/ui_support.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-import 'package:get/get.dart';
-import 'package:flutter/material.dart';
 
 class AttendanceController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -36,7 +27,9 @@ class AttendanceController extends GetxController
   final reasonTextController = TextEditingController().obs;
   final presentTab = false.obs;
   final circularProgressIndicatorValue = 0.0.obs;
+
   final end = 0.0.obs;
+  final tabIndex = 0.obs;
   final totalHours = "".obs;
   final locationDis = "".obs;
   final absentList = <AbsentModel>[].obs;
@@ -434,11 +427,11 @@ class AttendanceController extends GetxController
       "ExpenseID": 0,
       "Type": "string",
       "StatusId": 0,
-      "FromDate": "2024-03-07T09:06:13.489Z",
-      "ToDate": "2024-03-07T09:06:13.489Z"
+      "FromDate": "2023-03-07T09:06:13.489Z",
+      "ToDate": DateTime.now().toString()
     };
 
-    AllRepository().getMyReportByMonth(body, empId.toString()).then((value) {
+    AllRepository().getMyReportByMonth(body, empId.toString(),monthSelection.value.toString()).then((value) {
       print("hlw month by emp $value");
 
       myAttenReportByModel.value = MyAttenRepByMonthModel.fromJson(value);

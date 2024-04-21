@@ -92,7 +92,7 @@ class Result {
     searchDate: DateTime.parse(json["SearchDate"]),
     userFullName: json["UserFullName"],
     userName: json["UserName"],
-    userProfileImageLink: json["UserProfileImageLink"],
+    userProfileImageLink: json["UserProfileImageLink"] ?? "https://nexzen.salebee.net/assets/images/logo.png",
     userToken: json["UserToken"],
     active: json["Active"],
     id: json["Id"],

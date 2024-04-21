@@ -483,6 +483,7 @@ class MyTaskView extends GetView<TaskController> {
           SizedBox(
             height: 10,
           ),
+          controller.loader.value == true? CircularProgressIndicator():
           Container(
             height: Get.height * .55,
             child: controller.filteredMyTaskList.where((element) => element.dueDate!.day == controller.daySelection.value
@@ -670,7 +671,7 @@ class MyTaskView extends GetView<TaskController> {
                                         ),
                                         Spacer(),
                                         Text(
-                                          "${data.dueDate!.difference(DateTime.now()).inDays} days",
+                                          "You have ${data.dueDate!.difference(DateTime.now()).inDays} days",
                                           style: TextStyle(
                                               color: Colors.grey, fontSize: 14),
                                         ),
@@ -1292,6 +1293,119 @@ class MyTaskView extends GetView<TaskController> {
                                           children: [
                                             const SizedBox(
                                               height: 20,
+                                            ),
+                                            Row(
+                                              children: [
+                                                SizedBox(width: Get.width*.15,),
+                                                SizedBox(
+                                                  width: 10,
+                                                ),
+                                                InkWell(
+                                                  splashColor: Colors.blue,
+                                                  onTap: () {
+                                                    // _textMe(
+                                                    //     455);
+                                                  },
+                                                  child: Card(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            100)),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle),
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                        child: Icon(
+                                                          Icons.chat,
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                InkWell(
+                                                  splashColor: Colors.blue,
+                                                  onTap: () {
+                                                    // launchPhoneDialer(
+                                                    //     "2424");
+                                                  },
+                                                  child: Card(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            100)),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle),
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                        child: Icon(
+                                                          Icons.call,
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                InkWell(
+                                                  splashColor: Colors.blue,
+                                                  onTap: () {
+                                                    // _launchWhatsapp(
+                                                    //     356.toString());
+                                                  },
+                                                  child: Card(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                        BorderRadius.circular(
+                                                            100)),
+                                                    child: Container(
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle),
+                                                      child: Padding(
+                                                        padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                        child: Icon(
+                                                          Icons.messenger,
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 5,
+                                                ),
+                                                Card(
+                                                  shape: RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.circular(
+                                                          100)),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle),
+                                                    child: Padding(
+                                                      padding:
+                                                      const EdgeInsets.all(8.0),
+                                                      child: Icon(
+                                                        Icons.more_horiz,
+                                                        color: Colors.blue,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
                                             ),
                                             const SizedBox(
                                               height: 10,

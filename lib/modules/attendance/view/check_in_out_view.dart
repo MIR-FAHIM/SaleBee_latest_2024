@@ -124,7 +124,7 @@ class CheckInOutView extends GetView<AttendanceController> {
                         child: GestureDetector(
                           onTap: () {},
                           onLongPress: () async {
-                            if(Get.find<LocationService>().currentLocation.value.isEmpty ){
+                            if(Get.find<LocationService>().currentLocation.value.isEmpty){
                               Get.find<LocationService>().determinePosition();
                              if(controller.locationDis.value.isEmpty){
                                controller.getAddressFromLatLng(

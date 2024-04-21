@@ -40,8 +40,7 @@ class HomeController extends GetxController {
   final focusedIndex = 0.obs;
   @override
   Future<void> onInit() async {
-    print(
-        "my profile image is ${Get.find<AuthService>().currentUser.value.result!.userProfileImageLink!.replaceAll("../..", "")}");
+
     getALlEmployeeController();
     advancedStatusCheck();
     allPermittedMenu();

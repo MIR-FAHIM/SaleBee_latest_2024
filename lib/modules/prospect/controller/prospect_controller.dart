@@ -26,6 +26,7 @@ class ProspectController extends GetxController {
   final textPwdController = TextEditingController().obs;
   int lastSplashScreenIndex = -1;
   final locationDis = "".obs;
+  final prosId = "".obs;
 
   final stausID = 0.obs;
   final checkedValue = false.obs;
@@ -120,9 +121,9 @@ class ProspectController extends GetxController {
   final getStatus = <ResultStatus>[].obs;
   @override
   Future<void> onInit() async {
-    if(Get.find<AuthService>().checkProspectBool.value == true){
+    if (Get.find<AuthService>().checkProspectBool.value == true) {
       Get.find<AuthService>().getProspectList();
-    }else{
+    } else {
       getNewProspectListController();
     }
 
@@ -176,12 +177,14 @@ class ProspectController extends GetxController {
       throw ("Cannot dial");
     }
   }
+
   launchURL(url) async {
     final Uri _url = Uri.parse(url);
     if (!await launchUrl(_url)) {
       throw Exception('Could not launch $_url');
     }
   }
+
   textMe(num) async {
     // Android
     var uri = 'sms:+88${num.toString()}?body= Hellow Sir';
@@ -231,6 +234,20 @@ class ProspectController extends GetxController {
     });
   }
 
+  updateProspectStatus(id, stage) {
+    var token = Get.find<AuthService>().currentUser.value.result!.userToken!;
+    String encodedToken = Uri.encodeComponent(token);
+    AllRepository().updateProspectStatus(encodedToken, id, stage).then((value) {
+      print("my prospect status update is $value");
+      if (value["IsSuccess"] == true) {
+        Get.showSnackbar(
+            Ui.successSnackBar(message: value['Message'], title: 'Success'.tr));
+
+        getNewProspectListController();
+      }
+    });
+  }
+
   getAddressFromLatLng(double lat, double lng) async {
     String mapApiKey = "AIzaSyAG8IAuH-Yz4b3baxmK1iw81BH5vE4HsSs";
     String _host = 'https://maps.google.com/maps/api/geocode/json';
@@ -273,7 +290,7 @@ class ProspectController extends GetxController {
       "LocationDescription": locationDis.value,
       "LeadName": "No Data",
       "ProspectName": prospectName,
-      "ProspectAddress": "string",
+      "ProspectAddress": "No Data",
       "EmployeeName": "string",
       "FollowupType": 0,
       "IsLogIn": true,

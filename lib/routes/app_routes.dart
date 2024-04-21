@@ -9,6 +9,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const SPLASHSCREEN = _Paths.SPLASHSCREEN;
   static const TASKVIEW = _Paths.TASKVIEW;
+  static const ADDTASK = _Paths.ADDTASK;
   static const GETVISIT = _Paths.GETVISIT;
   static const PROSPECTVIEW = _Paths.PROSPECTVIEW;
   static const PROSPECTVIEWDETAIL = _Paths.PROSPECTVIEWDETAIL;
@@ -42,6 +43,7 @@ abstract class _Paths {
   static const GETVISITBYPROSPECT = '/GET-VISIT-PROSPECT';
   static const BASE = '/base';
   static const CHANGEPASS = '/change-pass';
+  static const ADDTASK = '/ADDTASK';
   static const ADDEXPENSE = '/ADDEXPENSE';
   static const ADDLEAD = '/ADDLEAD';
   static const EMPLIST = '/emp-list';

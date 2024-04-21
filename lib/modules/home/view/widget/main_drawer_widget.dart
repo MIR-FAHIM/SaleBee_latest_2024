@@ -22,7 +22,7 @@ class MainDrawerWidget extends StatelessWidget {
           DrawerHeader(
               child: Center(
                 child: Text(
-                  SharedPreff.to.prefss.getString("domain")!.toUpperCase(),
+          Get.find<AuthService>().domainName.value,
                   style: const TextStyle(
                     fontSize: 20,
                     color: Colors.blue,
@@ -137,6 +137,8 @@ class MainDrawerWidget extends StatelessWidget {
 
               Get.find<AuthService>().removeCurrentUser();
               Get.find<AuthService>().removeProspect();
+              Get.find<AuthService>().removeDomain();
+
               Get.find<AuthService>().removeLogged().then((e){
                 Get.offNamed(Routes.SPLASHSCREEN);
               });

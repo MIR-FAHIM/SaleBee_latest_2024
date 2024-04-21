@@ -1,16 +1,8 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:expandable/expandable.dart';
-
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:salebee_latest/api_provider/api_url.dart';
-import 'package:salebee_latest/modules/auth/controller/auth_controller.dart';
-import 'package:salebee_latest/modules/home/controller/home_controller.dart';
-import 'package:salebee_latest/modules/home/view/widget/dragable_widget.dart';
-
-import 'package:salebee_latest/modules/splash_screen/controller/splash_controller.dart';
 import 'package:salebee_latest/modules/task/controller/task_controller.dart';
 import 'package:salebee_latest/services/auth_services.dart';
 import 'package:salebee_latest/utils/AppColors/app_colors.dart';
